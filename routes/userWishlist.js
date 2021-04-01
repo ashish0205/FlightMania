@@ -8,7 +8,7 @@ const { MongoClient, ObjectID } = require("mongodb");
 const User = require("../model/userSchema");
 const mongoose = require("mongoose");
 
-router.post("/wishlist", async (req, res) => {
+router.post("/addtowishlist", async (req, res) => {
   const { name, iduser } = req.body;
   console.log(name, iduser);
 
@@ -39,5 +39,18 @@ router.post("/wishlist", async (req, res) => {
     console.log(err.message);
     res.status(500).send("Error in Saving");
   }
+});
+
+router.post("/wishlist", async (req, res) => {
+  const { iduser } = req.body;
+  User.findById(iduser)
+    .populate("cart")
+    .exec((err, posts) => {
+      res.json({
+        status: "200",
+        posts,
+        message: "data recieved successfully",
+      });
+    });
 });
 module.exports = router;
