@@ -15,8 +15,8 @@ router.post("/search", async (req, res) => {
   FROM flight
   INNER JOIN departure on flight.flight_number=departure.flight_number
   INNER JOIN arrival on flight.flight_number=arrival.flight_number
-  where departure.timezone like '%${req.param("departure")}%'and
-  arrival.Timezone like '%${req.param("arrival")}%'`;
+  where departure.timezone like '%${departure}%'and
+  arrival.Timezone like '%${arrival}%'`;
 
   try {
     let searchBy = await dbConnection.query(sql, (err, data) => {

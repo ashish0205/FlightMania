@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyparser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 const InitiateMongoServer = require("./config/database");
@@ -12,7 +13,7 @@ const searchEngine = require("./routes/searchEngine");
 InitiateMongoServer();
 // PORT
 const PORT = process.env.PORT || 4000;
-
+app.use(cors());
 // Middleware
 app.use(bodyparser.urlencoded({ extended: false }));
 

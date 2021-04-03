@@ -24,8 +24,23 @@ const UserSchema = mongoose.Schema({
   cart: [
     {
       _id: mongoose.Schema.Types.ObjectId,
-      name: { type: String, required: true },
-      quantity: { type: Number },
+      dairport: { type: String, required: true },
+      arairport: { type: String, required: true },
+      airlname: { type: String, required: true },
+      airlcode: { type: String, required: true },
+      diata: { type: String, required: true },
+      aiata: { type: String, required: true },
+      from: { type: String, required: true },
+      to: { type: String, required: true },
+      date: {
+        type: Date,
+        default: Date.now(),
+      },
+      time: { type: String, require: true },
+      clas: { type: String, require: true },
+      flightnum: { type: String, require: true },
+      price: { type: Number, require: true },
+      qty: { type: Number, require: true },
     },
   ],
 });

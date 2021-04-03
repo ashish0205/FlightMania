@@ -9,25 +9,57 @@ const User = require("../model/userSchema");
 const mongoose = require("mongoose");
 
 router.post("/addtowishlist", async (req, res) => {
-  const { name, iduser } = req.body;
-  console.log(name, iduser);
+  const {
+    dairport,
+    arairport,
+    airlname,
+    airlcode,
+    diata,
+    aiata,
+    from,
+    to,
+    time,
+    clas,
+    flightnum,
+    price,
+    qty,
+    iduser,
+  } = req.body;
+  // console.log(name, iduser);
 
   const updatCart = {
     _id: new mongoose.Types.ObjectId(),
-    name: name,
-    quantity: 1,
+    dairport: dairport,
+    arairport: arairport,
+    airlname: airlname,
+    airlcode: airlcode,
+    diata: diata,
+    aiata: aiata,
+    from: from,
+    to: to,
+    time: time,
+    clas: clas,
+    flightnum: flightnum,
+    price: price,
+    qty: qty,
   };
   try {
-    let wishlist = await User.findOneAndUpdate(
+    let wishlist = User.findOneAndUpdate(
       iduser,
       { $push: { cart: updatCart } },
       { safe: true, upsert: true, new: true },
       (err, user) => {
         if (err) {
-          console.log(err);
+          res.json({
+            status: 400,
+            err,
+          });
         }
-
-        console.log("hello" + user);
+        res.json({
+          status: 200,
+          user,
+          message: "data added successfully",
+        });
       }
     );
     if (!wishlist) {
@@ -46,11 +78,45 @@ router.post("/wishlist", async (req, res) => {
   User.findById(iduser)
     .populate("cart")
     .exec((err, posts) => {
+      const { post1, cart } = posts;
+      console.log(cart);
       res.json({
         status: "200",
-        posts,
+        cart,
         message: "data recieved successfully",
       });
     });
 });
+
+router.post("/removewishlistitem", async (req, res) => {
+  const { iduser, cartid } = req.body;
+
+  User.updateOne(
+    { _id: iduser },
+    { $pull: { cart: { _id: cartid } } },
+    function (err, results) {
+      if (!err) {
+        console.log("successfully deleted");
+        //   res.redirect("data");
+      } else {
+        console.log("error in deletion");
+        //    res.redirect("/");
+      }
+    }
+  );
+
+  // User.findById(iduser)
+  //   .populate("cart")
+  //   .remove({ _id: cartid })
+  //   .exec((err, posts) => {
+  //     const { post1, cart } = posts;
+  //     console.log(cart);
+  //     res.json({
+  //       status: "200",
+  //       cart,
+  //       message: "cart deleted successfully",
+  //     });
+  //   });
+});
+
 module.exports = router;
