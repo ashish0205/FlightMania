@@ -100,12 +100,13 @@ router.post("/removewishlistitem", async (req, res) => {
         res.json({
           status: 200,
           message: "Deleted Successfully",
+          success: true,
         });
       } else {
         res.json({
           status: 200,
           message: "There is some problem in deleting",
-          err,
+          success: false,
         });
         //    res.redirect("/");
       }
