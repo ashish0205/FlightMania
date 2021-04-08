@@ -25,7 +25,7 @@ router.post("/addtowishlist", async (req, res) => {
     qty,
     iduser,
   } = req.body;
-  // console.log(name, iduser);
+  console.log("user id" + iduser);
 
   const updatCart = {
     _id: new mongoose.Types.ObjectId(),
@@ -44,10 +44,10 @@ router.post("/addtowishlist", async (req, res) => {
     qty: qty,
   };
   try {
-    let wishlist = User.findOneAndUpdate(
+    let wishlist = User.findByIdAndUpdate(
       iduser,
       { $push: { cart: updatCart } },
-      { safe: true, upsert: true, new: true },
+      { useFindAndModify: false },
       (err, user) => {
         if (err) {
           res.json({
@@ -58,7 +58,7 @@ router.post("/addtowishlist", async (req, res) => {
         res.json({
           status: 200,
           user,
-          message: "data added successfully",
+          message: "data added to wishlist",
         });
       }
     );
@@ -175,7 +175,7 @@ router.post("/userhistory", async (req, res) => {
     qty: qty,
   };
   try {
-    let histry = User.findOneAndUpdate(
+    let histry = User.findByIdAndUpdate(
       iduser,
       { $push: { history: userhistory } },
       { safe: true, upsert: true, new: true },
