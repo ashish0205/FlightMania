@@ -11,3 +11,6 @@ airports<br>
 departure<br>
 Name of database in file is flights<br>
 If you are naming your database as mention above than it's fine other wise make sure to change in sqldb.<br>
+Run Api on same server as project.
+![api](https://user-images.githubusercontent.com/69053652/115769750-e13a5980-a379-11eb-9a5f-1c7d942d8593.PNG)
+
